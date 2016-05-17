@@ -1,0 +1,54 @@
+<?xml version="1.0"?>
+<project name="HelloWindowsForms" default="run">
+	<property name="basename" value="Snake"/>
+
+	<property name="debug" value="true"/>
+
+	<property name="build.dir" value="bin"/>
+
+	<property name="nant.settings.currentframework" value="net-2.0"/>
+
+	<target name="clean" description="cleans build directory">
+
+		<delete dir="${build.dir}" verbose="true" if="${directory::exists(build.dir)}" />
+
+	</target>
+
+
+
+	<target name="debug" depends="clean">
+		<property name="debug" value="true" />
+	</target>
+
+
+
+	<target name="release" depends="clean">
+		<property name="debug" value="false" />
+	</target>
+
+	<target name="build">
+		<mkdir dir="${build.dir}"/>
+		<csc target="exe" output="${build.dir}/${basename}.exe" debug="${debug}">
+			<resources>
+        			<include name="**/*.resx" />
+    			</resources>
+			<references>
+				<include name="Microsoft.CSharp"/>
+				<include name="System"/>
+				<include name="System.Core"/>
+				<include name="System.Data"/>
+				<include name="System.Data.DataSetExtentions"/>
+				<include name="System.Xml"/>
+				<include name="System.Xml.Linq"/>
+			</references>
+			<sources>
+				<include name="**/*.cs" />
+			</sources>
+		</csc>
+	</target>
+
+	<target name="run" depends="build">
+
+		<exec program="${basename}.exe" basedir="${build.dir}" />
+	</target>
+</project>
